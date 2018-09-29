@@ -72,4 +72,3 @@ src/Aether/Utility/InvocationWrapper/RceCommand.php -text
 src/Aether/Utility/RemotedApplication.php -text
 src/Aether/composer.json -text
 src/Common.php -text
-src/F2Dev/Utils/ToolApplication.php -text
