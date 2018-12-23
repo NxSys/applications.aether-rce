@@ -8,6 +8,7 @@
 /build.xml -text
 cmdlets/local/fancyhello/fancyhello.php -text
 cmdlets/local/hello.php -text
+cmdlets/system/Printf.php -text
 cmdlets/system/about.php -text
 cmdlets/system/fs/fs.php -text
 cmdlets/system/login.php -text
@@ -32,6 +33,7 @@ executive/aesh.php -text
 executive/config.sample.ini -text
 executive/config/services/acn.xml -text
 executive/config/services/common.xml -text
+executive/config/services/rce-events.xml -text
 executive/config/services/rce.xml -text
 executive/rce.php -text
 executive/templates/WebConsole.twig -text
@@ -72,3 +74,7 @@ src/Aether/Utility/InvocationWrapper/RceCommand.php -text
 src/Aether/Utility/RemotedApplication.php -text
 src/Aether/composer.json -text
 src/Common.php -text
+src/RCE/Command.php -text
+src/RCE/Listener/RCEService.php -text
+src/RCE/Listener/SoapListener.php -text
+src/RCE/RCEMain.php -text

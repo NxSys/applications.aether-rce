@@ -31,20 +31,31 @@
     },
     "autoload":
     {
-        "psr-4": { "": "src/" }
+        "psr-4": { "NxSys\\Applications\\Aether\\RCE\\": "src/RCE" }
     },
     "require":
     {
         "php": "^7.2",
         "ext-openssl": "^7.2",
         "ext-pthreads": "~3.0",
+        "ext-soap": "*",
         "composer/composer":            "~1.7",
-        "nxsys/toolkits.aether-sdk": "~0.1"
+        "nxsys/toolkits.aether-sdk": "trunk",
+        "cboden/ratchet": "^0.4.1",
+        "zendframework/zend-soap": "^2.7"
     },
     "require-dev":
     {
 
     },
+    "repositories":
+	[
+		{
+            "type": "path",
+			"url": "../toolkits.aether-sdk",
+			"options": {"symlink":true }
+		}
+	],
     "minimum-stability": "dev",
     "prefer-stable": true
 }

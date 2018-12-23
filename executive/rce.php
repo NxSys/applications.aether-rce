@@ -4,7 +4,7 @@
  * $Id$
  *
  * DESCRIPTION
- *  Back Connector for RCEs
+ *  Exec Entrypoint for RCEs
  *
  * @link http://nxsys.org/spaces/aether
  * @link https://onx.zulipchat.com
@@ -21,14 +21,23 @@
  * @version $Revision$
  */
 
-require_once 'Bootloader.php';
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////  FOR THE AESH APP  /////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// const PHAR_INSTALLED=TRUE
+const PHAR_INSTALLED=FALSE;
+////////////////////////////////////////////////////////////////////////////////
 
 //Domestic Namespace
-use NxSys\Frameworks\Aether,
-	NxSys\Library\Bridges\sfConsole\ToolApplication;
+use NxSys\Applications\Aether,
+	NxSys\Toolkits\Aether\SDK\Core;
 
 //Framework Namespace
 use Symfony\Component\Console as sfConsole;
+use NxSys\Library\Bridges\sfConsole\ToolApplication;
+use NxSys\Core\ExtensibleSystemClasses as CoreEsc;
+
+//start
 
 if (!defined('PHAR_NAME'))
 {
@@ -37,10 +46,26 @@ if (!defined('PHAR_NAME'))
 
 function ConsoleMain($argc, $argv): integer
 {
+	//our working dir is ./executive
+	$sOldDir=chdir(dirname(__FILE__)); //jump out from elsewhere
+
+	if (PHAR_INSTALLED)
+	{
+		require_once 'phar://Aether-RCE.phar/src/Common.php';
+	} 
+	else
+	{
+		require_once '../src/Common.php';
+	}
+
 	//setup app?
-	$oApp=new Aether\Utility\InvocationWrapper\RceCommand;
+	$oMain=new Aether\RCE\RCEMain();
+	$oApp=new Core\Boot\Executor($oMain, $oMain->getShortName());
 
 	// ready to run
 	$o_Application=new ToolApplication($oApp, APP_NAME, APP_VERSION, basename(__FILE__, '.php'));
-	return $o_Application->run(new sfConsole\Input\ArgvInput($argv));
+	$ret=$o_Application->run(new sfConsole\Input\ArgvInput($argv));
+
+	chdir($sOldDir); //restore cd
+	return $ret;
 }
