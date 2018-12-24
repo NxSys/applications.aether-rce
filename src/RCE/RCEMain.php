@@ -65,12 +65,12 @@ class RCEMain extends Core\Boot\Main
 		$this->log("//init Event Manager");
 		$oEventMgr = Container::getDependency('Aether.boot.eventmanager');
 		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "starting"));
-		
-		
+
+
 		$this->log("//init acn</>rce listeners");
 		$hAcnCommsFiber=Container::getDependency('rce.svc.fiber.AcnComms');
 		$oListener = Container::getDependency('rce.svc.AcnComms.listener');
-		
+
 		$hAcnCommsFiber->setupConstants(Container::getConfigParam('base.constants'));
 		$hAcnCommsFiber->start(PTHREADS_INHERIT_NONE);
 		$hAcnCommsFiber->setListener($oListener);
@@ -99,13 +99,16 @@ class RCEMain extends Core\Boot\Main
 			$a++;
 			# code...
 		}
-		while ($a <= 600);
+		while ($a <= 9);
 		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "loopStopeded"));
 		//clean up
 		$this->log("//Clean up");
 		$this->log("Stopping");
-		// sleep(5);
-		$this->log("ACN exiting...");
+		$hAcnCommsFiber->halt();
+		$hAcnCommsFiber->join();
+
+		// sleep(2);
+		$this->log("RCE exiting...");
 		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "exited"));
 		return 0;
 	}

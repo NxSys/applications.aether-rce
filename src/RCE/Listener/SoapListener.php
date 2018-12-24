@@ -33,7 +33,7 @@ class SoapListener  extends Core\Comms\BaseListener
 
 	/** @var object $oRatchetSockLoop description */
 	public $oRatchetSockLoop;
-	
+
 	public function listenLoop(): void
 	{
         $oHandler=new RCEService;
@@ -41,7 +41,7 @@ class SoapListener  extends Core\Comms\BaseListener
 
 		$loop=React\EventLoop\Factory::create();
 		// $this->hSockServer=new Ratchet\App('10.100.0.6', 8355, '0.0.0.0', $loop);
-		
+
 		#@todo support mounting of multiple routes??
 		$http = new HttpServer($oHandler);
 		$hSock=new React\Socket\Server('0.0.0.0:8335', $loop);
@@ -53,7 +53,10 @@ class SoapListener  extends Core\Comms\BaseListener
 
 	public function processEvents(): void
 	{
-		
+		while ($oEvent = $this->getThreadContext()->getInEvent())
+		{
+			$oEvent;
+		}
 	}
 
 	public function setBinding(string $sHost, string $sInterface, int $iPort)
@@ -72,6 +75,6 @@ class SoapListener  extends Core\Comms\BaseListener
 		}
 	}
 
-	
+
 }
 
