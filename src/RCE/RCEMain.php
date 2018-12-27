@@ -65,7 +65,7 @@ class RCEMain extends Core\Boot\Main
 		$this->log("//init Event Manager");
 		$oEventMgr = Container::getDependency('Aether.boot.eventmanager');
 		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "starting"));
-
+		$oEventMgr->addHandler($this);
 
 		$this->log("//init acn</>rce listeners");
 		$hAcnCommsFiber=Container::getDependency('rce.svc.fiber.AcnComms');
@@ -99,11 +99,11 @@ class RCEMain extends Core\Boot\Main
 			$a++;
 			# code...
 		}
-		while ($a <= 9);
-		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "loopStopeded"));
+		while ($a <= 999999 );
+		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "loopStoped"));
 		//clean up
 		$this->log("//Clean up");
-		$this->log("Stopping");
+		$this->log("Stopping services...");
 		$hAcnCommsFiber->halt();
 		$hAcnCommsFiber->join();
 
@@ -116,10 +116,7 @@ class RCEMain extends Core\Boot\Main
 
 	public function handleEvent(Core\Boot\Event\Event $oEv)
 	{
-		# code...
-		echo 'foooozzzzz....';
-		throw new \Exception("Error Processing Request", 1);
-
+		$this->log(sprintf("Observed %s:%s", $oEv->getChannel(), $oEv->getEvent()), (array) $oEv->getData());
 	}
 
 	public function getChannels(): array

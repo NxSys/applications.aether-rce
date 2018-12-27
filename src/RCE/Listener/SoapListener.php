@@ -36,26 +36,31 @@ class SoapListener  extends Core\Comms\BaseListener
 
 	public function listenLoop(): void
 	{
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
         $oHandler=new RCEService;
         $oHandler->setListener($this);
 
 		$loop=React\EventLoop\Factory::create();
-		// $this->hSockServer=new Ratchet\App('10.100.0.6', 8355, '0.0.0.0', $loop);
+		// $loop->addPeriodicTimer(1, [$this,'loopMaintenance']);
+		$loop->addPeriodicTimer(1, function() use ($loop) { $this->loopMaintenance($loop); });
 
 		#@todo support mounting of multiple routes??
 		$http = new HttpServer($oHandler);
+		// $this->hSockServer=new Ratchet\App('10.100.0.6', 8355, '0.0.0.0', $loop);
 		$hSock=new React\Socket\Server('0.0.0.0:8335', $loop);
 		$hSockServer=new IoServer($http, $hSock, $loop);
 
 		// $hSockServer->route('/', $oHandler);
 		$hSockServer->run();
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 	}
 
 	public function processEvents(): void
 	{
+		printf(">>>CHECKPOINT %s::%s:%s<<<", __CLASS__, __FUNCTION__, __LINE__);
 		while ($oEvent = $this->getThreadContext()->getInEvent())
 		{
-			$oEvent;
+			var_dump($oEvent);
 		}
 	}
 
@@ -64,14 +69,17 @@ class SoapListener  extends Core\Comms\BaseListener
 		# code...
 	}
 
-	public function loopMaintenance()
+	public function loopMaintenance(React\EventLoop\LoopInterface $loop)
 	{
-		var_dump("Loop Maintenance");
+		//@todo is React\EventLoop\Timer\Timer useful here?
+
+		// printf(">>>CHECKPOINT %s::%s:%s<<<", __CLASS__, __FUNCTION__, __LINE__);
+		// var_dump("Loop Maintenance");
 		$sStatus=$this->oThreadContext->fiberSignal();
 		if($sStatus)
 		{
-			$this->oRatchetSockLoop->end();
-			echo "AHHHHHHHHHHHHHHHHHHHHHHHHH";
+			$loop->stop();
+			//log("AHHHHHHHHHHHHHHHHHHHHHHHHH");
 		}
 	}
 
