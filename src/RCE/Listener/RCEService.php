@@ -26,7 +26,10 @@ class RCEService implements Ratchet\Http\HttpServerInterface
 		$oSoapServer->setReturnResponse(true);
 		try
 		{
-			($oSoapServer->handle((string) $request->getBody()));
+			var_dump($request->getBody());
+			$sReqBody=(string) $request->getBody();
+			var_dump($sReqBody);
+			$oSoapServer->handle($sReqBody);
 		}
 		catch (\Throwable $th)
 		{
