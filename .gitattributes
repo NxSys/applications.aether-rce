@@ -74,7 +74,6 @@ src/Aether/Utility/InvocationWrapper/RceCommand.php -text
 src/Aether/Utility/RemotedApplication.php -text
 src/Aether/composer.json -text
 src/Common.php -text
-src/RCE/Command.php -text
 src/RCE/Listener/RCEService.php -text
 src/RCE/Listener/SoapListener.php -text
 src/RCE/RCEMain.php -text
