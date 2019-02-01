@@ -4,6 +4,7 @@ namespace NxSys\Applications\Aether\RCE\Listener;
 
 use Exception;
 use SoapServer;
+use SoapFault;
 use Psr;
 use Ratchet;
 use Zend;
@@ -29,12 +30,25 @@ class RCEService implements Ratchet\Http\HttpServerInterface
 			var_dump($request->getBody());
 			$sReqBody=(string) $request->getBody();
 			var_dump($sReqBody);
-			$oSoapServer->handle($sReqBody);
+			$sServiceResponse=$oSoapServer->handle($sReqBody);
+			print_r($sServiceResponse);
+			if ($sServiceResponse instanceof SoapFault)
+			{
+				var_dump($sServiceResponse);
+				$conn->send('Error!'); //@todo xml error
+				$conn->close();
+				return;
+			}
+			$conn->send($sServiceResponse);
+			$conn->close();
+			print "handled without error...\n";
 		}
 		catch (\Throwable $th)
 		{
+			print_r((string) $th);
 			print_r($th);
 		}
+		print "request complete\n";
 		return;
 	}
 	public function onMessage(Ratchet\ConnectionInterface $from, $msg)
@@ -55,11 +69,20 @@ class RCEService implements Ratchet\Http\HttpServerInterface
 		return $this->oListener=$oListener;
 	}
 
-	public function sendEvent(string $sServiceAuthTicket, string $sChannel, string $sEventName, array $aEventData)
+	/**
+	 * Accepts an event to "process"
+	 *
+	 * @param string $sServiceAuthTicket
+	 * @param string $sChannel
+	 * @param string $sEventName
+	 * @param array $aEventData
+	 * @return string
+	 */
+	public function addEvent(string $sServiceAuthTicket, string $sChannel, string $sEventName, array $aEventData)
 	{
 		printf(">>>CHECKPOINT %s::%s:%s<<<", __CLASS__, __FUNCTION__, __LINE__);
 		$oEvent=new Event($sChannel, $sEventName, $aEventData);
-		$this->oListener->addEvent($oEvent);
-		return;
+		$this->oListener->getThreadContext()->addEvent($oEvent);
+		return 'OK';
 	}
 }

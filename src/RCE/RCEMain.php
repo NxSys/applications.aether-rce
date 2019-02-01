@@ -94,6 +94,10 @@ class RCEMain extends Core\Boot\Main
 			//internal?
 
 			//error handling/recovery
+			if ($iPendEventCount=count($oEventMgr->getQueue()))
+			{
+				$this->log(sprintf('Main event queue is %s deep.', $iPendEventCount));
+			}
 			$oEventMgr->processEvent();
 			sleep(1);
 			$a++;
