@@ -76,6 +76,8 @@ src/Aether/composer.json -text
 src/Common.php -text
 src/RCE/Command/CommandEnvironment.php -text
 src/RCE/Command/CommandEnvironmentHost.php -text
+src/RCE/Command/ExecutionRequest.php -text
+src/RCE/Command/Loader.php -text
 src/RCE/Handler/CommandExecutionHandler.php -text
 src/RCE/Handler/SubmissionsHandler.php -text
 src/RCE/Listener/RCEService.php -text

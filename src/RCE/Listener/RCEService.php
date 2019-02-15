@@ -31,7 +31,7 @@ class RCEService implements Ratchet\Http\HttpServerInterface
 			$sReqBody=(string) $request->getBody();
 			var_dump($sReqBody);
 			$sServiceResponse=$oSoapServer->handle($sReqBody);
-			print_r($sServiceResponse);
+			//print_r($sServiceResponse);
 			if ($sServiceResponse instanceof SoapFault)
 			{
 				var_dump($sServiceResponse);

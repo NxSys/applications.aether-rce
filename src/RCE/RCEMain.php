@@ -88,7 +88,7 @@ class RCEMain extends Core\Boot\Main
 			//---housekeeping---
 			//are threads up? & healthy
 
-			// $hTermCommsFiber->
+				// $hTermCommsFiber->
 
 			//---message passing---
 			//internal?
@@ -104,6 +104,7 @@ class RCEMain extends Core\Boot\Main
 			# code...
 		}
 		while ($a <= 999999 );
+		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "shutdownRequested"));
 		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "loopStoped"));
 		//clean up
 		$this->log("//Clean up");

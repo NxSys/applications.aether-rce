@@ -8,6 +8,8 @@
 	</imports>
 	<parameters>
 		<parameter key="rce.cfg.svcport">8354</parameter>
+		<parameter key="rce.cmd.pkgmgr" >composer</parameter> <!-- other values are meaningless atm -->
+		<parameter key="rce.cmd.basedir">cmdlets</parameter>
 
 		<!-- parameters -->
 		<parameter key="aether1.param">userspace</parameter>
@@ -22,13 +24,18 @@
 
 	</parameters>
 	<services>
-	
-	
+
 		<service id="rce.svc.fiber.AcnComms" class="%sdk.svc.ListenerHostFiber.fiber.class%"
-		shared="false">
+				 shared="false">
 		</service>
 
-		<service id="rce.svc.AcnComms.listener" class="%rce.svc.AcnComms.listener.class%" shared="false">
+		<service id="rce.svc.AcnComms.listener" class="%rce.svc.AcnComms.listener.class%"
+				 shared="false">
+		</service>
+
+		<service id="rce.svc.CmdEnvHost" class="%rce.svc.cmdhost.class%"
+				 shared="false">
+			<argument>128</argument>
 		</service>
 
 	</services>
