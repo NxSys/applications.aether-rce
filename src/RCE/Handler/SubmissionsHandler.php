@@ -1,13 +1,19 @@
 <?php
 
 /**
- * 
+ *
  *
  */
 
-namespace NxSys\Applications\Aether\RCE\Handlers;
+namespace NxSys\Applications\Aether\RCE\Handler;
 
-use NxSys\Toolkits\Aether\SDK\Core\Boot\Event\Event;
+/** Local Project Dependencies **/
+use NxSys\Toolkits\Aether\SDK\Core\Boot\Container,
+	NxSys\Toolkits\Aether\SDK\Core\Boot\Event\Event,
+	NxSys\Applications\Aether\RCE\Command;
+use NxSys\Core\ExtensibleSystemClasses\stdClass;
+
+
 
 
 /**
@@ -17,18 +23,30 @@ class SubmissionsHandler
 {
 	public function handleEvent(Event $oEvent)
 	{
-		printf(">>>CHECKPOINT %s::%s:%s<<<", __CLASS__, __METHOD__, __LINE__);
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		$this->oEventMgr = Container::getDependency('aether.boot.eventmanager');
 		//$oEventMgr->addEvent(new Event("terminal.command", "output", [1,1,'foooooooo']));
 
 		//var_dump($oEvent);
-		// output
+		$aEvtData=$oEvent->getData();
+
 		switch ($oEvent->getEvent())
 		{
 			case 'newCommand':
 			{
-				//valid and new command
-				
+				//validate and create ExecutionRequest
+				$oXReq=new Command\ExecutionRequest;
+
+				# @todo quickly refactor
+				$oXReq->iExecuitionId=$aEvtData["iExecutionId"];
+				$oXReq->sCommandName =$aEvtData["command"];
+				//$oXReq->iExecutionState=Command\ExecutionRequest::EXECUTIONSTATE_RCE_ACCEPTED;
+
+				//check args
+				$oXReq->oParameterSet=new stdClass;
+
+				$this->oEventMgr->addEvent(new Event("command", "execute", ['ExecutionRequest' => $oXReq] ));
+
 				break;
 			}
 		}

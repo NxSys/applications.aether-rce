@@ -25,11 +25,13 @@
 namespace NxSys\Applications\Aether\RCE\Handler;
 
 /** Local Project Dependencies **/
-use ,
+use
 	NxSys\Applications\Aether\RCE\Command;
 
 /** Framework Dependencies **/
 use NxSys\Toolkits\Aether\SDK\Core;
+use NxSys\Toolkits\Aether\SDK\Core\Boot\Event\Event;
+use NxSys\Toolkits\Aether\SDK\Core\Boot\Container;
 
 /** Library Dependencies **/
 use NxSys\Core\ExtensibleSystemClasses as CoreEsc;
@@ -59,9 +61,11 @@ class CommandExecutionHandler
 		$this->oEventMgr = Container::getDependency('aether.boot.eventmanager');
 		//$oEventMgr->addEvent(new Event("terminal.command", "output", [1,1,'foooooooo']));
 
-		//var_dump($oEvent);
+		// var_dump($oEvent);
 		// output
 		$aEvtData=$oEvent->getData();
+		$aEvtData['args']=[];
+		// var_dump($aEvtData);
 		switch ($oEvent->getEvent())
 		{
 			//housekeeping
@@ -74,11 +78,10 @@ class CommandExecutionHandler
 			//requests
 			case 'execute':
 			{
-				//validate and execute new command job
+				$oCmdEnvHost=Container::getDependency('rce.svc.CmdEnvHost');
 
-				$oXReq=new ExecutionRequest($aEvtData[0], //Xid
-											$aEvtData[1], //name
-											$aEvtData[2]);//args
+				//execute new command job
+				$oXReq=$aEvtData['ExecutionRequest'];
 				$oCmdEnvHost->addNewExecutionRequest($oXReq);
 				break;
 			}

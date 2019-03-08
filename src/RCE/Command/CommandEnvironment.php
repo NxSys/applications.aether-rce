@@ -12,7 +12,7 @@ use Throwable;
 class CommandEnvironment extends Core\Execution\Job\BaseJob
 	implements Pimple\Container, Core\Boot\Event\EventHandlerInterface
 {
-	private string $sTargetCommandName;
+	private $sTargetCommandName;
 	private $oExecutionRequest;
 
 	private $oCommandServiceConainer;
@@ -22,6 +22,13 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 	public function __construct(string $sCommandName,
 								ExecutionRequest $oExecutionRequest)
 	{
+		/**
+		 * name
+		 * typedparmobject
+		 * context\env\state tag\handles
+		 * 	things that belong to this instance
+		 */
+
 		$this->sTargetCommandName=$sCommandName;
 		$this->oCommandServiceConainer=new Pimple\Container;
 	}
@@ -64,11 +71,11 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		{
 			$oCmd->execute();
 		}
-		catch(iCommandException $oCmdx)
+		catch(CommandErrorException $oCmdX)
 		{
 			#code
 		}
-		catch(Throwable $xx)
+		catch(Throwable $xx)S
 		{
 			#code
 		}
@@ -99,5 +106,5 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 
 }
 
-interface iCommandException{}
-class CommandErrorException extends ErrorException implements iCommandException {}
+interface ICommandException{}
+class CommandErrorException extends ErrorException implements ICommandException {}

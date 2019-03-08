@@ -35,6 +35,7 @@ executive/config/services/acn.xml -text
 executive/config/services/common.xml -text
 executive/config/services/rce-events.xml -text
 executive/config/services/rce.xml -text
+executive/diag.exec.php -text
 executive/rce.php -text
 executive/templates/WebConsole.twig -text
 executive/templates/about.twig -text

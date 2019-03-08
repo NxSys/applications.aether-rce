@@ -18,6 +18,7 @@
 		<!-- classes -->
 		<parameter key="sdk.svc.ListenerHostFiber.fiber.class">NxSys\Toolkits\Aether\SDK\Core\Comms\ListenerHostFiber</parameter>
 		<parameter key="rce.svc.AcnComms.listener.class">NxSys\Applications\Aether\RCE\Listener\SOAPListener</parameter>
+		<parameter key="rce.svc.cmdhost.class">NxSys\Applications\Aether\RCE\Command\CommandEnvironmentHost</parameter>
 
 		<!-- third party classes -->
 		<parameter key="symfony-console-application.class">Symfony\Component\Console\Application</parameter>

@@ -7,13 +7,13 @@ use NxSys\Toolkits\Aether\SDK\Core\Execution;
 
 class CommandEnvironmentHost extends Execution\Supervisor
 {
-	public function submitNewCommandEnvironemt()
+	public function submitNewCommandEnvironemt(CommandEnvironment $oCmdEnv)
 	{
-
+		$this->submit($oCmdEnv);
 	}
 
-	public function submitCommandEnvironment(CommandEnvironment $oCmdEnv)
+	public function submitCommandEnvironment()
 	{
-		$parent->submit($oCmdEnv);
+
 	}
 }
