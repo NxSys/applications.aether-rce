@@ -9,7 +9,7 @@
 		<tag name="event.autohandle" channels="rce.submissions" />
 	</service>
 
-	<service class="\NxSys\Applications\Aether\RCE\Handler\CommandExecutionHandler">
+	<service class="\NxSys\Applications\Aether\RCE\Handler\ExecutionRequestHandler">
 		<tag name="event.autohandle" channels="command|command.meta|command.sys" />
 		<argument type="service" id="rce.svc.CmdEnvHost" />
 	</service>

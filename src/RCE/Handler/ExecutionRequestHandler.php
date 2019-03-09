@@ -44,7 +44,7 @@ use NxSys\Core\ExtensibleSystemClasses as CoreEsc;
  * @throws NxSys\Toolkits\Aether\SDK\Core\IException Well, does it?
  * @author Chris R. Feamster <cfeamster@f2developments.com>
  */
-class CommandExecutionHandler
+class ExecutionRequestHandler
 {
 	public $oCmdEnvHost;
 	// ctor deps
@@ -82,7 +82,9 @@ class CommandExecutionHandler
 
 				//execute new command job
 				$oXReq=$aEvtData['ExecutionRequest'];
+				printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 				$oCmdEnvHost->addNewExecutionRequest($oXReq);
+				printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 				break;
 			}
 			case 'status':
@@ -92,6 +94,7 @@ class CommandExecutionHandler
 				break;
 			}
 		}
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		return;
 	}
 

@@ -12,10 +12,10 @@ use DateTime;
  * @author
  * @api
  */
-class ExecutionRequest extends Threaded
+class ExecutionRequest
 {
 	// IDs (FKs)
-	public $iExecuitionId;
+	public $iExecutionId;
 
 
 
@@ -31,7 +31,7 @@ class ExecutionRequest extends Threaded
 	/** @var string $sACNOwner ACN That owns this execution */
 	public $sACNOwner;
 
-	/** @var DataeTime $oCreationTime Moment at which this XR was created */
+	/** @var DateTime $oCreationTime Moment at which this XR was created */
 	public $oCreationTime;
 
 	/** @var DateTime $oInstanceTime[] moment at which this XR spawned a command */
@@ -40,8 +40,6 @@ class ExecutionRequest extends Threaded
 	/** @var DateTime $oExitTime Time the XR was no longer running */
 	protected $oExitTime = null;
 
-	/** @var int $iExecutionState int of current execution status */
-	public $iExecutionState = self::EXECUTIONSTATE_UNDEFINED;
 	const EXECUTIONSTATE_UNDEFINED    =	0;
 	const EXECUTIONSTATE_SUBMITTED    =	1;
 	const EXECUTIONSTATE_ACN_ACCEPTED =	2;
@@ -50,6 +48,8 @@ class ExecutionRequest extends Threaded
 	const EXECUTIONSTATE_INTERRUPTED  =	5;
 	const EXECUTIONSTATE_TERMINATED   =	6;
 	const EXECUTIONSTATE_FINISHED 	  =	7;
+	/** @var int $iExecutionState int of current execution status */
+	public $iExecutionState = self::EXECUTIONSTATE_UNDEFINED;
 
 
 

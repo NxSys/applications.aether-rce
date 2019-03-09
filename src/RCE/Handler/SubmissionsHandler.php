@@ -38,14 +38,17 @@ class SubmissionsHandler
 				$oXReq=new Command\ExecutionRequest;
 
 				# @todo quickly refactor
-				$oXReq->iExecuitionId=$aEvtData["iExecutionId"];
+				$oXReq->iExecutionId=$aEvtData["iExecutionId"];
 				$oXReq->sCommandName =$aEvtData["command"];
 				//$oXReq->iExecutionState=Command\ExecutionRequest::EXECUTIONSTATE_RCE_ACCEPTED;
 
 				//check args
-				$oXReq->oParameterSet=new stdClass;
-
+				// $oXReq->oParameterSet=new stdClass;
+				//sleep(3);
+				var_dump($oXReq);
+				var_dump(serialize($oXReq));
 				$this->oEventMgr->addEvent(new Event("command", "execute", ['ExecutionRequest' => $oXReq] ));
+				printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 
 				break;
 			}

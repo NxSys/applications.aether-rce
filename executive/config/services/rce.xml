@@ -19,6 +19,7 @@
 		<parameter key="sdk.svc.ListenerHostFiber.fiber.class">NxSys\Toolkits\Aether\SDK\Core\Comms\ListenerHostFiber</parameter>
 		<parameter key="rce.svc.AcnComms.listener.class">NxSys\Applications\Aether\RCE\Listener\SOAPListener</parameter>
 		<parameter key="rce.svc.cmdhost.class">NxSys\Applications\Aether\RCE\Command\CommandEnvironmentHost</parameter>
+		<parameter key="rce.svc.cmdworker.class">NxSys\Applications\Aether\RCE\Command\CommandEnvironmentWorker</parameter>
 
 		<!-- third party classes -->
 		<parameter key="symfony-console-application.class">Symfony\Component\Console\Application</parameter>
@@ -37,6 +38,7 @@
 		<service id="rce.svc.CmdEnvHost" class="%rce.svc.cmdhost.class%"
 				 shared="false">
 			<argument>128</argument>
+			<argument>%rce.svc.cmdworker.class%</argument>
 		</service>
 
 	</services>

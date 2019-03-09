@@ -26,6 +26,7 @@ cmdlets/system/sys/config.php -text
 cmdlets/system/sys/session.php -text
 cmdlets/system/sys/sys.php -text
 cmdlets/system/sysinfo.php -text
+cmdlets/system/systime.php -text
 cmdlets/system/type.php -text
 /composer.json -text
 executive/Bootloader.php -text
@@ -77,9 +78,10 @@ src/Aether/composer.json -text
 src/Common.php -text
 src/RCE/Command/CommandEnvironment.php -text
 src/RCE/Command/CommandEnvironmentHost.php -text
+src/RCE/Command/CommandEnvironmentWorker.php -text
 src/RCE/Command/ExecutionRequest.php -text
 src/RCE/Command/Loader.php -text
-src/RCE/Handler/CommandExecutionHandler.php -text
+src/RCE/Handler/ExecutionRequestHandler.php -text
 src/RCE/Handler/SubmissionsHandler.php -text
 src/RCE/Listener/RCEService.php -text
 src/RCE/Listener/SoapListener.php -text

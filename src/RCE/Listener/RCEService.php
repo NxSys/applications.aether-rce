@@ -114,7 +114,8 @@ class RCEService implements Ratchet\Http\HttpServerInterface
 	 */
 	public function addEvent(string $sServiceAuthTicket, string $sChannel, string $sEventName, array $aEventData)
 	{
-		printf(">>>CHECKPOINT %s::%s:%s<<<", __CLASS__, __FUNCTION__, __LINE__);
+		$l=sprintf(">>>%s}CHECKPOINT %s::%s:%s<<<", time(), __CLASS__, __FUNCTION__, __LINE__);
+		file_put_contents(APP_BASE_DIR.'\ev.log', $l, FILE_APPEND|LOCK_EX);
 		$oEvent=new Event($sChannel, $sEventName, $aEventData);
 		$this->oListener->getThreadContext()->addEvent($oEvent);
 		return 'OK';

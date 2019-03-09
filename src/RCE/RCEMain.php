@@ -65,7 +65,6 @@ class RCEMain extends Core\Boot\Main
 		$this->log("//init Event Manager");
 		$oEventMgr = Container::getDependency('Aether.boot.eventmanager');
 		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "starting"));
-		$oEventMgr->addHandler($this);
 
 		$this->log("//init acn</>rce listeners");
 		$hAcnCommsFiber=Container::getDependency('rce.svc.fiber.AcnComms');

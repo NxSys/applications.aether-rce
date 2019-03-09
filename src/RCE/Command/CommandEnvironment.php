@@ -6,11 +6,10 @@ use NxSys\Toolkits\Aether\SDK\Core,
 	NxSys\Toolkits\Aether\SDK\Core\Execution;
 
 use Pimple;
-
+use ErrorException;
 use Throwable;
 
 class CommandEnvironment extends Core\Execution\Job\BaseJob
-	implements Pimple\Container, Core\Boot\Event\EventHandlerInterface
 {
 	private $sTargetCommandName;
 	private $oExecutionRequest;
@@ -28,16 +27,14 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		 * context\env\state tag\handles
 		 * 	things that belong to this instance
 		 */
-
 		$this->sTargetCommandName=$sCommandName;
 		$this->oCommandServiceConainer=new Pimple\Container;
 	}
 
-	public function preinitializeEnvironment(...)
+	public function preinitializeEnvironment(...$aVars)
 	{ //pre ::start
 
 		// copy over into this space anything we need
-
 		$this->setupConstants(Core\Boot\Container::getConfigParam('base.constants'));
 
 		//init service container
@@ -45,26 +42,29 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 			APP_BASE_DIR.DIRECTORY_SEPARATOR.Core\Boot\Container::getConfigParam('rce.cmd.basedir');
 
 		$this->oCommandServiceConainer['api.version']=APP_VERSION;
-
 	}
 
 	public function run()
 	{
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		//freeze CE
 		static $freeze=0;
 		if($freeze++)
 		{
 			throw new CommandException("Can not rerun used environments.");
 		}
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 
 		$this->initConstants();
 
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		//setup error handling
 		set_error_handler([$this, 'handleCommandError']);
-
+		//set_exception_handler([$this, 'handleException']);
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		//load cmd
 		$oCmd=CommandLoader::load($this->sTargetCommandName);
-
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 
 		//run cmd
 		try
@@ -75,7 +75,7 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		{
 			#code
 		}
-		catch(Throwable $xx)S
+		catch(Throwable $xx)
 		{
 			#code
 		}
@@ -92,16 +92,24 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		return;
 	}
 
-	public function handleCommandError($severity, $message, $file, $line): void
+	public function handleCommandError($severity, $message, $file, $line): bool
 	{
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 	    if (!(error_reporting() & $severity))
 	    {
     	    // This error code is not included in error_reporting
         	// but lets call it a quiet notice
         	//@todo emit notice
-        	return;
+        	return true;
     	}
-    	throw new CommandErrorException($message, $severity, $severity, $file, $line);
+		throw new CommandErrorException($message, $severity, $file, $line);
+		return true;
+	}
+
+	public function handleException($e)
+	{
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
+		echo $this->showException($e);
 	}
 
 }
