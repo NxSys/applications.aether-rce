@@ -1,0 +1,32 @@
+{
+    "config":
+    {
+        "vendor-dir": "libs",
+        "use-include-path": true,
+        "autoloader-suffix": "null",
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "apcu-autoloader": true,
+        "htaccess-protect": false
+    },
+    "repositories":
+	[
+		{
+            "type": "path",
+			"url": "../src/AetherCommandInstallerPlugin",
+			"options": {"symlink":true }
+		},
+		{
+            "type": "path",
+			"url": "../src/HelloCommand",
+			"options": {"symlink":true }
+		}
+	],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require":
+    {
+        "kabachello/composerapi": "^0.3.2",
+        "mindplay/composer-locator": "^2.1"
+    }
+}

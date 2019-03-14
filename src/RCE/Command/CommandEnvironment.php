@@ -47,6 +47,8 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 	public function run()
 	{
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
+		printf('>>THREAD %s^%s', \Thread::getCurrentThread()->getCreatorId() ,\Thread::getCurrentThreadId());
+
 		//freeze CE
 		static $freeze=0;
 		if($freeze++)
@@ -56,6 +58,8 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 
 		$this->initConstants();
+		APP_AUTOLOADER_FILE;
+
 
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		//setup error handling
@@ -63,7 +67,7 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		//set_exception_handler([$this, 'handleException']);
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		//load cmd
-		$oCmd=CommandLoader::load($this->sTargetCommandName);
+		$oCmd=Loader::load($this->sTargetCommandName);
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 
 		//run cmd

@@ -7,13 +7,11 @@
 		<import resource="rce-events.xml" />
 	</imports>
 	<parameters>
+		<!-- parameters -->
 		<parameter key="rce.cfg.svcport">8354</parameter>
+		<!-- the package manager "converts" command packages to a autoloader (composer|puli) -->
 		<parameter key="rce.cmd.pkgmgr" >composer</parameter> <!-- other values are meaningless atm -->
 		<parameter key="rce.cmd.basedir">cmdlets</parameter>
-
-		<!-- parameters -->
-		<parameter key="aether1.param">userspace</parameter>
-		<parameter key="aether.param">dev_active</parameter>
 
 		<!-- classes -->
 		<parameter key="sdk.svc.ListenerHostFiber.fiber.class">NxSys\Toolkits\Aether\SDK\Core\Comms\ListenerHostFiber</parameter>
@@ -22,11 +20,9 @@
 		<parameter key="rce.svc.cmdworker.class">NxSys\Applications\Aether\RCE\Command\CommandEnvironmentWorker</parameter>
 
 		<!-- third party classes -->
-		<parameter key="symfony-console-application.class">Symfony\Component\Console\Application</parameter>
-
+		<!-- <parameter key="symfony-console-application.class">Symfony\Component\Console\Application</parameter> -->
 	</parameters>
 	<services>
-
 		<service id="rce.svc.fiber.AcnComms" class="%sdk.svc.ListenerHostFiber.fiber.class%"
 				 shared="false">
 		</service>
@@ -35,6 +31,7 @@
 				 shared="false">
 		</service>
 
+		<!-- @todo inject CE, allow user overide...? -->
 		<service id="rce.svc.CmdEnvHost" class="%rce.svc.cmdhost.class%"
 				 shared="false">
 			<argument>128</argument>

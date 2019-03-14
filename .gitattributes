@@ -6,10 +6,10 @@
 /SECURITY.txt -text
 /box.json -text
 /build.xml -text
-cmdlets/local/fancyhello/fancyhello.php -text
-cmdlets/local/hello.php -text
+cmdlets/cpm.json -text
 cmdlets/system/Printf.php -text
 cmdlets/system/about.php -text
+cmdlets/system/cpm.php -text
 cmdlets/system/fs/fs.php -text
 cmdlets/system/login.php -text
 cmdlets/system/motd.php -text
@@ -28,6 +28,8 @@ cmdlets/system/sys/sys.php -text
 cmdlets/system/sysinfo.php -text
 cmdlets/system/systime.php -text
 cmdlets/system/type.php -text
+cmdlets/user/fancyhello/fancyhello.php -text
+cmdlets/user/hello.php -text
 /composer.json -text
 executive/Bootloader.php -text
 executive/aesh.php -text
@@ -75,6 +77,13 @@ src/Aether/Utility/InvocationWrapper/AeshCommand.php -text
 src/Aether/Utility/InvocationWrapper/RceCommand.php -text
 src/Aether/Utility/RemotedApplication.php -text
 src/Aether/composer.json -text
+src/AetherCommandInstallerPlugin/composer.json -text
+src/AetherCommandInstallerPlugin/src/Installer.php -text
+src/AetherCommandInstallerPlugin/src/InstallerPlugin.php -text
+src/CommandAPI/composer.json -text
+src/CommandAPI/src/AetherAPI.php -text
+src/CommandAPI/src/_Ambient.php -text
+src/CommandAPI/src/t.php -text
 src/Common.php -text
 src/RCE/Command/CommandEnvironment.php -text
 src/RCE/Command/CommandEnvironmentHost.php -text

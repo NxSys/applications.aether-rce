@@ -1,0 +1,15 @@
+{
+	"name": "nxsys/toolkits.aether-api-cmd",
+	"type": "library",
+	"license": "MIT",
+	"autoload":
+	{
+		"psr-4": { "NxSys\\Toolkits\\Aether\\API\\RCE\\": "src/" },
+		"files": ["src/_Ambient.php"]
+	},
+	"require":
+	{
+		"nxsys/core": "^0.4.0",
+		"nxsys/library.ncl-telemetry-base": "trunk"
+	}
+}

@@ -2,7 +2,7 @@
 
 namespace NxSys\Applications\Aether\RCE\Command;
 
-final class CommandLoader
+final class Loader
 {
 	public static function getCommand(string $sCommandName): Command
 	{
