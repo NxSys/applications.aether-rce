@@ -21,7 +21,7 @@
  * @version $Revision$
  */
 
-namespace AetherAPI
+namespace NxSys\Toolkits\Aether\API\RCE
 {
 	function x()
 	{
