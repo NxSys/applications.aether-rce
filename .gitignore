@@ -1,3 +1,4 @@
 cmdlets/libs/*
 executive/config.ini
+src/CommandAPI/*
 /vendor

@@ -81,7 +81,10 @@ src/AetherCommandInstallerPlugin/composer.json -text
 src/AetherCommandInstallerPlugin/src/Installer.php -text
 src/AetherCommandInstallerPlugin/src/InstallerPlugin.php -text
 src/CommandAPI/composer.json -text
-src/CommandAPI/src/AetherAPI.php -text
+src/CommandAPI/src/IException.php -text
+src/CommandAPI/src/IO.php -text
+src/CommandAPI/src/IO/Output.php -text
+src/CommandAPI/src/RCE.php -text
 src/CommandAPI/src/_Ambient.php -text
 src/CommandAPI/src/t.php -text
 src/Common.php -text

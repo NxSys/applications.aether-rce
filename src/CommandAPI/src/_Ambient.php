@@ -5,6 +5,8 @@
  *
  * DESCRIPTION
  *  A Core file for Aether.sh
+ * 
+ * This file is for functions and constants ONLY!!!1
  *
  * @link http://nxsys.org/spaces/aether
  * @link https://onx.zulipchat.com
@@ -21,10 +23,18 @@
  * @version $Revision$
  */
 
+
+
+
 namespace NxSys\Toolkits\Aether\API\RCE
 {
-	function x()
+	function aString()
 	{
 		echo "string";
+	}
+
+	function emit($sEventName, $sChannelName, $aData)
+	{
+		var_dump(func_get_args());
 	}
 }

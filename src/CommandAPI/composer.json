@@ -5,7 +5,7 @@
 	"autoload":
 	{
 		"psr-4": { "NxSys\\Toolkits\\Aether\\API\\RCE\\": "src/" },
-		"files": ["src/_Ambient.php"]
+		"files": ["src/_Ambient.php", "src/RCE.php"]
 	},
 	"require":
 	{
