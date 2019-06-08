@@ -10,6 +10,7 @@ class CommandEnvironmentHost extends Execution\Supervisor
 {
 	public function submitNewCommandEnvironment(CommandEnvironment $oCmdEnv)
 	{
+		$oCmdEnv->preinitializeEnvironment();
 		$this->submit($oCmdEnv);
 	}
 

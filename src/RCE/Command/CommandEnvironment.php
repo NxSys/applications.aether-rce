@@ -4,19 +4,23 @@ namespace NxSys\Applications\Aether\RCE\Command;
 
 use NxSys\Toolkits\Aether\SDK\Core,
 	NxSys\Toolkits\Aether\SDK\Core\Execution;
+	
+use NxSys\Applications\Aether\RCE\Command\Loader;
 
 use Pimple;
 use ErrorException;
 use Throwable;
+use Thread;
 
 class CommandEnvironment extends Core\Execution\Job\BaseJob
 {
 	private $sTargetCommandName;
 	private $oExecutionRequest;
 
-	private $oCommandServiceConainer;
+	private $oCommandServiceContainer;
 
 	public $oFinalException;
+	public $sCmdsLocation;
 
 	public function __construct(string $sCommandName,
 								ExecutionRequest $oExecutionRequest)
@@ -28,7 +32,7 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		 * 	things that belong to this instance
 		 */
 		$this->sTargetCommandName=$sCommandName;
-		$this->oCommandServiceConainer=new Pimple\Container;
+		$this->oCommandServiceContainer=new Pimple\Container;
 	}
 
 	public function preinitializeEnvironment(...$aVars)
@@ -38,17 +42,18 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		$this->setupConstants(Core\Boot\Container::getConfigParam('base.constants'));
 
 		//init service container
-		$this->oCommandServiceConainer['cmd.basedir']=
+		$this->oCommandServiceContainer['cmd.basedir']=
 			APP_BASE_DIR.DIRECTORY_SEPARATOR.Core\Boot\Container::getConfigParam('rce.cmd.basedir');
-
-		$this->oCommandServiceConainer['api.version']=APP_VERSION;
+		//var_dump(APP_BASE_DIR,Core\Boot\Container::getConfigParam('rce.cmd.basedir'));
+		$this->sCmdsLocation=APP_BASE_DIR.DIRECTORY_SEPARATOR.Core\Boot\Container::getConfigParam('rce.cmd.basedir');
+		$this->oCommandServiceContainer['api.version']=APP_VERSION;
 	}
 
 	public function run()
 	{
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
-		printf('>>THREAD %s^%s', \Thread::getCurrentThread()->getCreatorId() ,\Thread::getCurrentThreadId());
-
+		printf('>>THREAD %s^%s', Thread::getCurrentThread()->getCreatorId(), Thread::getCurrentThreadId());
+		
 		//freeze CE
 		static $freeze=0;
 		if($freeze++)
@@ -57,9 +62,16 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		}
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 
-		$this->initConstants();
-		APP_AUTOLOADER_FILE;
+		//var_dump($this->oCommandServiceContainer);
 
+		$this->initConstants();
+		require_once __DIR__.DIRECTORY_SEPARATOR.'Loader.php';
+		// spl_autoload_register([new Loader, '']);
+		require_once $this->sCmdsLocation
+			.DIRECTORY_SEPARATOR
+			.'libs'
+			.DIRECTORY_SEPARATOR
+			.'autoload.php';
 
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		//setup error handling
@@ -67,7 +79,7 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		//set_exception_handler([$this, 'handleException']);
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		//load cmd
-		$oCmd=Loader::load($this->sTargetCommandName);
+		$oCmd=Loader::getCommand($this->sTargetCommandName);
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 
 		//run cmd
