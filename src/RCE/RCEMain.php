@@ -68,7 +68,11 @@ class RCEMain extends Core\Boot\Main
 
 		$this->log("//init acn<->rce channels");
 		$hAcnCommsFiber=Container::getDependency('rce.svc.fiber.AcnComms');
+		$this->registerThreadOnWatchdog($hAcnCommsFiber);
+		
 		$oListener = Container::getDependency('rce.svc.AcnComms.listener');
+		// $this->registerThreadOnWatchdog($oListener);
+
 
 		$hAcnCommsFiber->setupConstants(Container::getConfigParam('base.constants'));
 		$hAcnCommsFiber->start(PTHREADS_INHERIT_NONE);
@@ -86,11 +90,20 @@ class RCEMain extends Core\Boot\Main
 		{
 			//---housekeeping---
 			//are threads up? & healthy
+			if (count($t=$this->checkThreadWatchDog())>0)
+			{
+				$sDeadthreads=implode(' ', $t);
+				$this->log(sprintf('Threads are unhealthy: %s', $sDeadthreads));
+				$this->log(sprintf('I\'m quiting...', $sDeadthreads));
+				break;
+			}
 
 				// $hTermCommsFiber->
 
 			//---message passing---
 			//internal?
+
+			#sys.quit?
 
 			//error handling/recovery
 			if ($iPendEventCount=count($oEventMgr->getQueue()))

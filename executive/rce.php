@@ -44,7 +44,7 @@ if (!defined('PHAR_NAME'))
 	return ConsoleMain($argc, $argv);
 }
 
-function ConsoleMain($argc, $argv): integer
+function ConsoleMain($argc, $argv): int
 {
 	//our working dir is ./executive
 	$sOldDir=chdir(dirname(__FILE__)); //jump out from elsewhere
@@ -67,5 +67,5 @@ function ConsoleMain($argc, $argv): integer
 	$ret=$o_Application->run(new sfConsole\Input\ArgvInput($argv));
 
 	chdir($sOldDir); //restore cd
-	return $ret;
+	return (int)$ret;
 }
