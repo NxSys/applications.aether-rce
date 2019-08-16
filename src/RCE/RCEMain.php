@@ -28,6 +28,7 @@ namespace NxSys\Applications\Aether\RCE;
 use NxSys\Applications\Aether;
 use NxSys\Toolkits\Aether\SDK\Core;
 use NxSys\Toolkits\Aether\SDK\Core\Boot\Container;
+use NxSys\Toolkits\Parallax\Agent\BaseAgent;
 
 //Framework Namespaces
 use Symfony\Component\Console as sfConsole;
@@ -68,21 +69,25 @@ class RCEMain extends Core\Boot\Main
 
 		$this->log("//init acn<->rce channels");
 		$hAcnCommsFiber=Container::getDependency('rce.svc.fiber.AcnComms');
-		$this->registerThreadOnWatchdog($hAcnCommsFiber);
-		
+		//$this->registerThreadOnWatchdog($hAcnCommsFiber);
+
 		$oListener = Container::getDependency('rce.svc.AcnComms.listener');
 		// $this->registerThreadOnWatchdog($oListener);
 
 
-		$hAcnCommsFiber->setupConstants(Container::getConfigParam('base.constants'));
-		$hAcnCommsFiber->start(PTHREADS_INHERIT_NONE);
+		//$hAcnCommsFiber->setupConstants(Container::getConfigParam('base.constants'));
 		$hAcnCommsFiber->setListener($oListener);
+
+		$oAgent = new BaseAgent();
+
+		$oFuture = $oAgent->start($hAcnCommsFiber);
+
 
 
 		$this->log("//init handler");
 		$this->log("//start listener threads (rce[1])");
 
-		$hAcnCommsFiber->setEventQueue($oEventMgr->getQueue());
+		//$hAcnCommsFiber->setEventQueue($oEventMgr->getQueue());
 		$oEventMgr->addHandler($hAcnCommsFiber);
 		$oEventMgr->addEvent(new Core\Boot\Event\Event("rce.sys", "loopStarted"));
 		$a=0;
@@ -90,6 +95,7 @@ class RCEMain extends Core\Boot\Main
 		{
 			//---housekeeping---
 			//are threads up? & healthy
+			/* *
 			if (count($t=$this->checkThreadWatchDog())>0)
 			{
 				$sDeadthreads=implode(' ', $t);
@@ -97,6 +103,7 @@ class RCEMain extends Core\Boot\Main
 				$this->log(sprintf('I\'m quiting...', $sDeadthreads));
 				break;
 			}
+			**/
 
 				// $hTermCommsFiber->
 
@@ -106,12 +113,8 @@ class RCEMain extends Core\Boot\Main
 			#sys.quit?
 
 			//error handling/recovery
-			if ($iPendEventCount=count($oEventMgr->getQueue()))
-			{
-				$this->log(sprintf('Main event queue is %s deep.', $iPendEventCount));
-			}
 			$oEventMgr->processEvent();
-			sleep(1);
+			//sleep(1);
 			$a++;
 			# code...
 		}
@@ -151,4 +154,3 @@ class RCEMain extends Core\Boot\Main
 		return -1;
 	}
 }
-

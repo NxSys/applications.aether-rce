@@ -34,8 +34,6 @@
 		<!-- @todo inject CE, allow user overide...? -->
 		<service id="rce.svc.CmdEnvHost" class="%rce.svc.cmdhost.class%"
 				 shared="false">
-			<argument>128</argument>
-			<argument>%rce.svc.cmdworker.class%</argument>
 		</service>
 
 	</services>

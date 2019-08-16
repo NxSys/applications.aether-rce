@@ -90,7 +90,6 @@ src/CommandAPI/src/t.php -text
 src/Common.php -text
 src/RCE/Command/CommandEnvironment.php -text
 src/RCE/Command/CommandEnvironmentHost.php -text
-src/RCE/Command/CommandEnvironmentWorker.php -text
 src/RCE/Command/ExecutionRequest.php -text
 src/RCE/Command/Loader.php -text
 src/RCE/Handler/ExecutionRequestHandler.php -text

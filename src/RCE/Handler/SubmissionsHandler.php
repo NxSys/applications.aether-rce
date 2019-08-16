@@ -45,8 +45,9 @@ class SubmissionsHandler
 				//check args
 				// $oXReq->oParameterSet=new stdClass;
 				//sleep(3);
-				var_dump($oXReq);
+
 				var_dump(serialize($oXReq));
+				var_dump($oXReq);
 				$this->oEventMgr->addEvent(new Event("command", "execute", ['ExecutionRequest' => $oXReq] ));
 				printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 

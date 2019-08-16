@@ -3,8 +3,8 @@
  /** @namespace Native Namespace */
 namespace NxSys\Library\Bridges\AetherCommandInstallerPlugin;
 
-use Composer\Package\PackageInterface;
 use Composer\Installer\LibraryInstaller;
+use Composer\Package\PackageInterface;
 
 class Installer extends LibraryInstaller
 {

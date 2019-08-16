@@ -82,9 +82,10 @@ class ExecutionRequestHandler
 
 				//execute new command job
 				$oXReq=$aEvtData['ExecutionRequest'];
-				printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
+				var_dump($oXReq);
+				printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 				$oCmdEnvHost->addNewExecutionRequest($oXReq);
-				printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
+				printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 				break;
 			}
 			case 'status':

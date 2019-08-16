@@ -17,7 +17,7 @@ use DOMDocument,
 $sRceLocator='http://127.0.0.1:8335';
 $iExecutionId=random_int(10001, 99999);
 
-$sCmd='ver';
+$sCmd='hello';
 
 $ops=
 [

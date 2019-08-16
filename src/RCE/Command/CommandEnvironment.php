@@ -4,15 +4,18 @@ namespace NxSys\Applications\Aether\RCE\Command;
 
 use NxSys\Toolkits\Aether\SDK\Core,
 	NxSys\Toolkits\Aether\SDK\Core\Execution;
-	
+
 use NxSys\Applications\Aether\RCE\Command\Loader;
+use NxSys\Applications\Aether\RCE\Command\ExecutionRequest;
+
+use NxSys\Toolkits\Parallax\Job\BaseJob;
 
 use Pimple;
 use ErrorException;
 use Throwable;
 use Thread;
 
-class CommandEnvironment extends Core\Execution\Job\BaseJob
+class CommandEnvironment extends BaseJob
 {
 	private $sTargetCommandName;
 	private $oExecutionRequest;
@@ -23,7 +26,7 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 	public $sCmdsLocation;
 
 	public function __construct(string $sCommandName,
-								ExecutionRequest $oExecutionRequest)
+								$oExecutionRequest)
 	{
 		/**
 		 * name
@@ -31,30 +34,31 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		 * context\env\state tag\handles
 		 * 	things that belong to this instance
 		 */
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 		$this->sTargetCommandName=$sCommandName;
-		$this->oCommandServiceContainer=new Pimple\Container;
+		//$this->oCommandServiceContainer=new Pimple\Container;
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 	}
 
 	public function preinitializeEnvironment(...$aVars)
 	{ //pre ::start
 
 		// copy over into this space anything we need
-		$this->setupConstants(Core\Boot\Container::getConfigParam('base.constants'));
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 
 		//init service container
-		$this->oCommandServiceContainer['cmd.basedir']=
-			APP_BASE_DIR.DIRECTORY_SEPARATOR.Core\Boot\Container::getConfigParam('rce.cmd.basedir');
+		//$this->oCommandServiceContainer['cmd.basedir']=
+			//APP_BASE_DIR.DIRECTORY_SEPARATOR.Core\Boot\Container::getConfigParam('rce.cmd.basedir');
 		//var_dump(APP_BASE_DIR,Core\Boot\Container::getConfigParam('rce.cmd.basedir'));
 		$this->sCmdsLocation=APP_BASE_DIR.DIRECTORY_SEPARATOR.Core\Boot\Container::getConfigParam('rce.cmd.basedir');
-		$this->oCommandServiceContainer['api.version']=APP_VERSION;
+		//$this->oCommandServiceContainer['api.version']=APP_VERSION;
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 	}
 
 	public function run()
 	{
-		error_reporting(E_ALL); //configure?
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
-		printf('>>THREAD %s^%s', Thread::getCurrentThread()->getCreatorId(), Thread::getCurrentThreadId());
-		
+
 		//freeze CE
 		static $freeze=0;
 		if($freeze++)
@@ -62,8 +66,6 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 			throw new CommandErrorException("Can not rerun used environments.");
 		}
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
-		
-		$this->initConstants();
 		//var_dump($this->oCommandServiceContainer);
 		//setup error handling
 		// set_error_handler([$this, 'handleCommandError']);
@@ -72,15 +74,15 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 		require_once __DIR__.DIRECTORY_SEPARATOR.'Loader.php';
 		Loader::LoadExternalClassManager($this->sCmdsLocation);
 
-		
-		
+
+
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
-		
+
 		//load cmd
 		try
 		{
 			printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
-			$oCmd=Loader::getCommand($this->sTargetCommandName);
+			//$oCmd=Loader::getCommand($this->sTargetCommandName);
 		}
 		catch (Loader_RuntimeException $LdrRtEx)
 		{
@@ -93,14 +95,14 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 			print $this->showException($Ex);
 			printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 		}
-		
-		
+
+
 		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __METHOD__, __LINE__);
 
 		//run cmd
 		try
 		{
-			$oCmd?:$oCmd->execute();
+			//$oCmd?:$oCmd->execute();
 		}
 		catch(CommandErrorException $oCmdX)
 		{
@@ -151,14 +153,7 @@ class CommandEnvironment extends Core\Execution\Job\BaseJob
 
 }
 
-function exception_error_handler($severity, $message, $file, $line) {
-    if (!(error_reporting() & $severity)) {
-        // This error code is not included in error_reporting
-        return;
-    }
-    throw new ErrorException($message, 0, $severity, $file, $line);
-}
-set_error_handler('exception_error_handler');
+
 
 
 interface ICommandException{}

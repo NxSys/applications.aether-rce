@@ -22,7 +22,7 @@ use Psr;
  */
 class RCEService implements Ratchet\Http\HttpServerInterface
 {
-	public $aDefaultHeaders=['X-Powered-By' => APP_IDENT.' RCE/'.APP_VERSION];
+	public $aDefaultHeaders=[];//'X-Powered-By' => APP_IDENT.' RCE/'.APP_VERSION];
 	protected $oListener;
 
 	public function onOpen(Ratchet\ConnectionInterface $conn, Psr\Http\Message\RequestInterface $request = null)
@@ -114,9 +114,13 @@ class RCEService implements Ratchet\Http\HttpServerInterface
 	 */
 	public function addEvent(string $sServiceAuthTicket, string $sChannel, string $sEventName, array $aEventData)
 	{
+		printf(">>>%s}CHECKPOINT %s::%s:%s<<<", time(), __CLASS__, __FUNCTION__, __LINE__);
 		$l=sprintf(">>>%s}CHECKPOINT %s::%s:%s<<<", time(), __CLASS__, __FUNCTION__, __LINE__);
-		file_put_contents(APP_BASE_DIR.'\ev.log', $l, FILE_APPEND|LOCK_EX);
+		//file_put_contents(APP_BASE_DIR.'\ev.log', $l, FILE_APPEND|LOCK_EX);
+		error_log(sprintf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__).PHP_EOL, 4);
 		$oEvent=new Event($sChannel, $sEventName, $aEventData);
+
+		error_log(print_r($oEvent, true), 4);
 		$this->oListener->getThreadContext()->addEvent($oEvent);
 		return 'OK';
 	}

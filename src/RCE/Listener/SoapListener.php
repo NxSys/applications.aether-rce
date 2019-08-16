@@ -47,8 +47,11 @@ class SoapListener  extends Core\Comms\BaseListener
 		#@todo support mounting of multiple routes??
 		$http = new HttpServer($oHandler);
 		// $this->hSockServer=new Ratchet\App('10.100.0.6', 8355, '0.0.0.0', $loop);
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 		$hSock=new React\Socket\Server('0.0.0.0:8335', $loop);
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 		$hSockServer=new IoServer($http, $hSock, $loop);
+		printf(">>>CHECKPOINT %s::%s:%s<<<\n", __CLASS__, __FUNCTION__, __LINE__);
 
 		// $hSockServer->route('/', $oHandler);
 		$hSockServer->run();
@@ -85,4 +88,3 @@ class SoapListener  extends Core\Comms\BaseListener
 
 
 }
-
